@@ -1,0 +1,30 @@
+{
+  "name": "mathcomp",
+  "version": "0.1.0",
+  "description": "A lightweight math core for JavaScript: arithmetic, algebra, and elementary math",
+  "type": "module",
+  "main": "./dist/mathcomp.cjs",
+  "module": "./dist/mathcomp.mjs",
+  "exports": {
+    ".": {
+      "import": "./dist/mathcomp.mjs",
+      "require": "./dist/mathcomp.cjs"
+    }
+  },
+  "files": [
+    "dist",
+    "src",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "esbuild src/index.js --bundle --format=esm --outfile=dist/mathcomp.js && esbuild src/index.js --bundle --format=esm --minify --outfile=dist/mathcomp.min.js && esbuild src/index.js --bundle --format=esm --outfile=dist/mathcomp.mjs && esbuild src/index.js --bundle --format=cjs --outfile=dist/mathcomp.cjs",
+    "test": "node --test"
+  },
+  "keywords": ["math", "algebra", "arithmetic", "calculator", "solver", "expression"],
+  "author": "Madalbekov Muras",
+  "license": "MIT",
+  "devDependencies": {
+    "esbuild": "^0.20.0"
+  }
+}
