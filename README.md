@@ -9,14 +9,14 @@ A lightweight math core for JavaScript: arithmetic, algebra, and elementary math
 ### From GitHub
 
 ```bash
-npm install github:MadalbekovMuras/mathcomp
+npm install github:TimurFilchenko/mathcomp
 ```
 
 ### Via jsDelivr (browser)
 
 ```html
 <script type="module">
-  import { MathComp } from 'https://cdn.jsdelivr.net/gh/MadalbekovMuras/mathcomp@main/dist/mathcomp.mjs';
+  import { MathComp } from 'https://cdn.jsdelivr.net/gh/TimurFilchenko/mathcomp@main/dist/mathcomp.mjs';
   const mc = new MathComp();
   console.log(mc.eval('2 + 3 * 4'));
 </script>
@@ -119,7 +119,7 @@ npm test
 Open `examples/index.html` in a browser, or try the online demo:
 
 ```text
-https://MadalbekovMuras.github.io/mathcomp/examples/
+https://TimurFilchenko.github.io/mathcomp/examples/
 ```
 
 ## Project layout
