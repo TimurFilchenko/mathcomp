@@ -119,7 +119,7 @@ npm test
 Open `examples/index.html` in a browser, or try the online demo:
 
 ```text
-https://TimurFilchenko.github.io/mathcomp/examples/
+https://TimurFilchenko.github.io/mathcomp/examples/index.html
 ```
 
 ## Project layout
