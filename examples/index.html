@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MathComp Demo</title>
+  <link rel="stylesheet" href="style.css">
+
+  <script type="module" src="https://cdn.jsdelivr.net/npm/mathlive@0.101.2/dist/mathlive.min.mjs"></script>
+
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']]
+      },
+      svg: { fontCache: 'global' },
+      startup: { typeset: false }
+    };
+  </script>
+</head>
+<body>
+  <main>
+    <h1>MathComp</h1>
+
+    <math-field id="input">2 + 3 * 4</math-field>
+
+    <button id="submit" type="button">=</button>
+
+    <div id="output"></div>
+  </main>
+
+  <script type="module">
+    import { MathComp } from '../dist/mathcomp.min.js';
+
+    const mc = new MathComp();
+    const input = document.getElementById('input');
+    const output = document.getElementById('output');
+    const button = document.getElementById('submit');
+
+    let mathJaxReady = false;
+
+    const script = document.createElement('script');
+    script.src = 'https://unpkg.com/mathjax@4/tex-svg.js';
+    script.defer = true;
+    script.onload = () => {
+      mathJaxReady = true;
+      console.log('MathJax loaded');
+    };
+    script.onerror = () => {
+      console.error('MathJax failed to load');
+      const fallback = document.createElement('script');
+      fallback.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.0.0/tex-svg.js';
+      fallback.defer = true;
+      fallback.onload = () => { mathJaxReady = true; console.log('MathJax loaded from cdnjs'); };
+      fallback.onerror = () => console.error('MathJax failed everywhere');
+      document.head.appendChild(fallback);
+    };
+    document.head.appendChild(script);
+
+    button.addEventListener('click', () => {
+      try {
+        const rawLatex = input.value ?? '';
+        const expression = latexToExpression(rawLatex);
+
+        if (!expression) {
+          output.textContent = '\\text{empty input}';
+          renderMath();
+          return;
+        }
+
+        let result;
+        if (expression.includes('=')) {
+          result = mc.solve(expression);
+        } else {
+          result = mc.eval(expression);
+        }
+
+        output.textContent = formatToLatex(result);
+        renderMath();
+      } catch (error) {
+        output.textContent = `\\text{${error.message}}`;
+        renderMath();
+      }
+    });
+
+    function renderMath() {
+      if (window.MathJax && window.MathJax.typesetPromise) {
+        window.MathJax.typesetPromise([output]).catch((err) => console.error(err));
+      } else if (mathJaxReady) {
+        console.warn('MathJax loaded but typesetPromise not available');
+      } else {
+        console.warn('MathJax not ready yet');
+      }
+    }
+
+    function formatToLatex(result) {
+      if (!result) return '\\text{no result}';
+      if (result.error) return `\\text{${result.error}}`;
+
+      if (result.solutions !== undefined) {
+        if (result.solutions === 'all') return '\\text{all}';
+        if (Array.isArray(result.solutions)) {
+          if (result.solutions.length === 0) return '\\text{no solutions}';
+          const roots = result.solutions.map((s) => String(s)).join(', ');
+          return `x = ${roots}`;
+        }
+      }
+
+      if (result.value !== undefined) {
+        return String(result.value);
+      }
+
+      return '\\text{no result}';
+    }
+
+    function latexToExpression(latex) {
+      return latex
+        .replace(/\\equals/g, '=')
+        .replace(/\\text\{=\}/g, '=')
+        .replace(/\\times/g, '*')
+        .replace(/\\div/g, '/')
+        .replace(/\\cdot/g, '*')
+        .replace(/\\left|\\right/g, '')
+        .replace(/\^\{([^{}]+)\}/g, '^($1)')
+        .replace(/\\sqrt\[3\]\{([^{}]+)\}/g, 'cbrt($1)')
+        .replace(/\\sqrt\[([^\]]+)\]\{([^{}]+)\}/g, 'root($1, $2)')
+        .replace(/\\sqrt\{([^{}]+)\}/g, 'sqrt($1)')
+        .replace(/\\frac\{([^{}]+)\}\{([^{}]+)\}/g, '($1)/($2)')
+        .replace(/\\pi/g, 'pi')
+        .replace(/\s+/g, ' ')
+        .trim();
+    }
+  </script>
+</body>
+</html>
