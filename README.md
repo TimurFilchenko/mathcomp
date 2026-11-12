@@ -2,15 +2,9 @@
 
 A lightweight math core for JavaScript: arithmetic, algebra, and elementary math. Takes an expression or equation — returns the answer. Exact BigInt fractions, no graphs, no dependencies.
 
-> **Status:** not published to npm yet. Install directly from GitHub or use via jsDelivr.
+> **Status:** not published to npm. Use directly from GitHub or via jsDelivr.
 
 ## Installation
-
-### From GitHub
-
-```bash
-npm install github:TimurFilchenko/mathcomp
-```
 
 ### Via jsDelivr (browser)
 
@@ -20,6 +14,12 @@ npm install github:TimurFilchenko/mathcomp
   const mc = new MathComp();
   console.log(mc.eval('2 + 3 * 4'));
 </script>
+```
+
+### From GitHub (Node)
+
+```bash
+npm install github:TimurFilchenko/mathcomp
 ```
 
 ### Local (from source)
@@ -119,7 +119,7 @@ npm test
 Open `examples/index.html` in a browser, or try the online demo:
 
 ```text
-https://github.com/TimurFilchenko/mathcomp/blob/main/examples/index.html
+https://TimurFilchenko.github.io/mathcomp/examples/
 ```
 
 ## Project layout
@@ -133,4 +133,4 @@ test/       automated tests (node --test)
 
 ## License
 
-MIT © Timur Filchenko
+MIT © Madalbekov Muras
