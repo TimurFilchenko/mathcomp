@@ -1,11 +1,31 @@
 # MathComp
 
-A lightweight math core for JavaScript: arithmetic, algebra, and elementary math. Takes an expression or equation — returns the answer. No graphs, no visualization, no dependencies.
+A lightweight math core for JavaScript: arithmetic, algebra, and elementary math. Takes an expression or equation — returns the answer. Exact BigInt fractions, no graphs, no dependencies.
+
+> **Status:** not published to npm yet. Install directly from GitHub or use via jsDelivr.
 
 ## Installation
 
+### From GitHub
+
 ```bash
-npm install mathcomp
+npm install github:MadalbekovMuras/mathcomp
+```
+
+### Via jsDelivr (browser)
+
+```html
+<script type="module">
+  import { MathComp } from 'https://cdn.jsdelivr.net/gh/MadalbekovMuras/mathcomp@main/dist/mathcomp.mjs';
+  const mc = new MathComp();
+  console.log(mc.eval('2 + 3 * 4'));
+</script>
+```
+
+### Local (from source)
+
+```js
+import { MathComp } from './src/index.js';
 ```
 
 ## Quick start
@@ -44,8 +64,9 @@ mc.eval('cube(3)');
 ## Features
 
 - Arithmetic: operator precedence, parentheses, powers, roots, percentages
-- Exact fractions: `1/3 + 1/6 = 1/2`, no float errors
-- Functions: `sqrt`, `abs`, `sin`, `cos`, `tan`, `ln`, `log`, `exp`, `floor`, `ceil`, `round`, `min`, `max`
+- Exact BigInt fractions: `24^24` and `1/3 + 1/6` without floating-point errors
+- Roots of any degree: `sqrt`, `cbrt`, `root(n, x)`
+- Functions: `sqrt`, `cbrt`, `root`, `abs`, `sin`, `cos`, `tan`, `ln`, `log`, `exp`, `floor`, `ceil`, `round`, `min`, `max`, `pow`
 - Variables: `mc.eval('2x + 3', { x: 5 })`
 - Linear equations: `mc.solve('2x + 3 = 11')`
 - Quadratic equations: `mc.solve('x^2 - 5x + 6 = 0')`
@@ -80,10 +101,11 @@ npm install
 npm run build
 ```
 
-Produces three files in `dist/`:
+Produces files in `dist/`:
 
 - `dist/mathcomp.js` — ESM
 - `dist/mathcomp.min.js` — ESM, minified
+- `dist/mathcomp.mjs` — ESM (explicit module)
 - `dist/mathcomp.cjs` — CommonJS
 
 ## Tests
@@ -94,14 +116,18 @@ npm test
 
 ## Demo
 
-Open `examples/index.html` in a browser.
+Open `examples/index.html` in a browser, or try the online demo:
+
+```text
+https://MadalbekovMuras.github.io/mathcomp/examples/
+```
 
 ## Project layout
 
 ```text
 src/        source code (ES modules)
-dist/       build output (ESM, ESM min, CJS)
-examples/   browser demo
+dist/       build output (ESM, ESM min, ESM .mjs, CJS)
+examples/   browser demo (MathLive input + MathJax output)
 test/       automated tests (node --test)
 ```
 
